@@ -13,13 +13,13 @@
   "author": "Daniel Bischoff",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "cross-env": "^5.0.1",
-    "eslint": "^4.15.0",
+    "babel-eslint": "^8.2.5",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.0.1",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-vue": "^4.0.0",
-    "truffle-contract": "^1.1.11",
-    "web3": "^0.20.0"
+    "eslint-plugin-vue": "^4.5.0",
+    "truffle-contract": "^3.0.6",
+    "web3": "^1.0.0-beta.34"
   },
   "dependencies": {
     "nuxt": "^1.4.1"
