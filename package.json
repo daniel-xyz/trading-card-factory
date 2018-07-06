@@ -1,0 +1,27 @@
+{
+  "name": "trading-card-factory",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "dev": "nuxt --config-file config/nuxt.config.js",
+    "build": "nuxt build --config-file config/nuxt.config.js",
+    "start": "nuxt start --config-file config/nuxt.config.js",
+    "generate": "nuxt generate --config-file config/nuxt.config.js",
+    "lint": "eslint --config config/.eslintrc.js --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "author": "Daniel Bischoff",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "cross-env": "^5.0.1",
+    "eslint": "^4.15.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-vue": "^4.0.0",
+    "truffle-contract": "^1.1.11",
+    "web3": "^0.20.0"
+  },
+  "dependencies": {
+    "nuxt": "^1.4.1"
+  }
+}
