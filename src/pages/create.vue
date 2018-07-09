@@ -2,10 +2,10 @@
   <section class="container">
     <div>
       <h1 class="title">
-        Trading Card Factory
+        Create a new Card
       </h1>
       <h2 class="subtitle">
-        A dApp to create, buy and collect trading cards.
+        It will show up in Booster Packs afterwards. You'll even get a reward whenever someone gets your Card in a Booster Pack.
       </h2>
       <button-menu/>
     </div>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ButtonMenu from '~/components/ButtonMenu.vue'
+import ButtonMenu from '~/components/ButtonMenu'
 
 export default {
   components: {
@@ -23,15 +23,4 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  align-items: center;
-}
-
-.title {
-  font-size: 100px;
-}
-
-.subtitle {
-  font-size: 42px;
-}
 </style>
