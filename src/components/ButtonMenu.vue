@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .links {
-  padding-top: 15px;
+  padding: 16px;
 }
 
 .button {
