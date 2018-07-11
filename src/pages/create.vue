@@ -11,26 +11,28 @@
 
       <button-menu/>
 
-      <form class="creation-form">
+      <form>
         <div>
           <label for="title">Card Title: </label>
           <input id="title" v-model="title" type="text" placeholder="Text">
         </div>
 
-        <div>
+        <div class="margin-top">
           <label for="attack">Attack Value: </label>
           <input id="attack" v-model="attack" type="number" placeholder="Number">
         </div>
 
-        <div>
+        <div class="margin-top">
           <label for="defense">Defense Value: </label>
           <input id="defense" v-model="defense" type="number" placeholder="Number">
         </div>
 
-        <div>
+        <!-- <div class="margin-top">
           <label for="artwork">Artwork: </label>
           <input id="artwork" type="file">
-        </div>
+        </div> -->
+
+        <button type="submit" class="submit-button margin-top-l">Create on Blockchain</button>
       </form>
     </div>
   </section>
@@ -52,9 +54,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.creation-form > div {
-  margin-top: 12px;
-}
-</style>

@@ -38,9 +38,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    /*
-    ** You can extend webpack config here
-    */
+    vendor: ['web3'],
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -50,12 +48,10 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
           options: {
-            configFile: 'config/.eslintrc.js',
+            configFile: '.eslintrc.js',
           },
         })
       }
     },
   },
-  srcDir: 'src/',
-  rootDir: './',
 }
