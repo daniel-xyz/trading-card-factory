@@ -2,6 +2,7 @@ pragma solidity ^0.4.24;
 
 contract Cards {
 	Card[] cards;
+	Card genesisCard = Card('Friendly Dragon', 12, 30, address(0));
 
 	event CreatedCard(string title, address creator);
 
@@ -11,9 +12,9 @@ contract Cards {
 		uint8 defense;
 		address creator;
 	}
-
+	
 	constructor() public {
-		cards.push(Card('Friendly Dragon', 12, 30, address(0)));
+		cards.push(genesisCard);
 	}
 
 	function createCard(string title, uint8 attack, uint8 defense) public {
@@ -23,8 +24,8 @@ contract Cards {
 	}
 
 	// just to test this contract
-	function getRandomCard() public view returns(string title, uint8 attack, uint8 defense, address creator) {
-		Card storage card = cards[1];
+	function getGenesisCard() public view returns(string, uint8, uint8, address) {
+		Card storage card = cards[0];
 
 		return (card.title, card.attack, card.defense, card.creator);
 	}
