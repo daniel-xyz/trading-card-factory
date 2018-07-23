@@ -55,5 +55,4 @@ module.exports = {
     },
   },
   srcDir: 'src/',
-  rootDir: './',
 }
