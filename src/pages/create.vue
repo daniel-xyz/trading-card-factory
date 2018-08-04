@@ -33,7 +33,6 @@
         </div> -->
 
         <div v-if="validationError" class="error">Please fill out the form before submitting it! 🧐</div>
-
         <button type="submit" class="submit-button margin-top-l">Create on Blockchain</button>
       </form>
     </div>
