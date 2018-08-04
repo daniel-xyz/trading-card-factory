@@ -4,7 +4,7 @@ contract Cards {
 	Card[] cards;
 	Card genesisCard = Card('Friendly Dragon', 12, 30, address(0));
 
-	event CreatedCard(string title, address creator);
+	event CreatedCard(string title, address creator, uint totalCards);
 
 	struct Card {
 		string title;
@@ -20,7 +20,7 @@ contract Cards {
 	function createCard(string title, uint8 attack, uint8 defense) public {
 		cards.push(Card(title, attack, defense, msg.sender));
 
-		emit CreatedCard(title, msg.sender);
+		emit CreatedCard(title, msg.sender, cards.length);
 	}
 
 	// just to test this contract

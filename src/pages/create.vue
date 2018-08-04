@@ -11,7 +11,7 @@
 
       <button-menu/>
 
-      <form>
+      <form @submit.prevent="submitForm()">
         <div>
           <label for="title">Card Title: </label>
           <input id="title" v-model="title" type="text" placeholder="Text">
@@ -32,6 +32,8 @@
           <input id="artwork" type="file">
         </div> -->
 
+        <div v-if="validationError" class="error">Please fill out the form before submitting it! 🧐</div>
+
         <button type="submit" class="submit-button margin-top-l">Create on Blockchain</button>
       </form>
     </div>
@@ -39,6 +41,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ButtonMenu from '~/components/ButtonMenu'
 
 export default {
@@ -47,10 +50,36 @@ export default {
   },
   data() {
     return {
+      validationError: false,
       title: null,
       attack: null,
       defense: null,
     }
+  },
+  methods: {
+    submitForm() {
+      if (!this.isFormValid()) return
+
+      this.createCard({
+        title: this.title,
+        attack: this.attack,
+        defense: this.defense,
+      })
+    },
+    isFormValid() {
+      const isValid = !!this.title && !!this.attack && !!this.defense
+
+      if (!isValid) {
+        this.validationError = true
+
+        return false
+      }
+
+      this.validationError = false
+
+      return true
+    },
+    ...mapActions(['createCard']),
   },
 }
 </script>

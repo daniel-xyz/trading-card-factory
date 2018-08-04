@@ -53,3 +53,7 @@ html {
 .margin-top-l {
   margin-top: 24px;
 }
+
+.error {
+  color: red;
+}
