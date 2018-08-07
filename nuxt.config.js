@@ -27,7 +27,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: ['~/plugins/web3.js', '~/plugins/ipfs.js'],
 
   /*
   ** Nuxt.js modules
