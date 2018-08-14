@@ -15,7 +15,8 @@
         Title: {{ card.title }} <br>
         Attack: {{ card.attack }} <br>
         Defense: {{ card.defense }} <br>
-        Creator: {{ card.creator }}
+        Creator: {{ card.creator }} <br>
+        Artwork: {{ card.artwork }}
       </div>
     </div>
   </section>

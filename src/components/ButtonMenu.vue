@@ -15,10 +15,10 @@
     </nuxt-link>
 
     <nuxt-link
-      :class="{ 'button--selected': selected === 'buy'}"
+      :class="{ 'button--selected': selected === 'shop'}"
       class="button"
-      to="/buy">
-      Buy Booster Pack
+      to="/shop">
+      Card Shop
     </nuxt-link>
 
     <nuxt-link

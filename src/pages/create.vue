@@ -14,22 +14,22 @@
       <form @submit.prevent="submitForm()">
         <div>
           <label for="title">Card Title: </label>
-          <input id="title" v-model="title" type="text" placeholder="Text">
+          <input id="title" v-model="title" type="text" placeholder="Text" required maxlength="32">
         </div>
 
         <div class="margin-top">
           <label for="attack">Attack Value: </label>
-          <input id="attack" v-model="attack" type="number" placeholder="Number">
+          <input id="attack" v-model="attack" type="number" placeholder="Number" required maxlength="255">
         </div>
 
         <div class="margin-top">
           <label for="defense">Defense Value: </label>
-          <input id="defense" v-model="defense" type="number" placeholder="Number">
+          <input id="defense" v-model="defense" type="number" placeholder="Number" required maxlength="255">
         </div>
 
         <div class="margin-top">
           <label for="artwork">Artwork: </label>
-          <input id="artwork" type="file" @change="captureFile">
+          <input id="artwork" type="file" required @change="captureFile">
         </div>
 
         <div v-show="isUploading">
