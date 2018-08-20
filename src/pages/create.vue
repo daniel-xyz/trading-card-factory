@@ -6,7 +6,7 @@
       </h1>
 
       <h2 class="subtitle">
-        It will show up in Booster Packs afterwards. You'll even get a reward whenever someone gets your Card in a Booster Pack.
+        It will show up in the Card Shop afterwards. You'll even get paid whenever someone buys your Card.
       </h2>
 
       <button-menu/>
@@ -80,6 +80,7 @@ export default {
         title: this.title,
         attack: this.attack,
         defense: this.defense,
+        weiPrice: this.weiPrice,
         artwork: this.ipfsHash,
       })
     },

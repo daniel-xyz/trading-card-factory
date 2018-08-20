@@ -24,13 +24,6 @@ export default {
       default: false,
     },
   },
-  watch: {
-    cards(cards) {
-      console.log(this.$web3)
-      console.log(this.$web3.utils.isBN(cards[0].weiPrice))
-      console.log(cards[0].weiPrice)
-    },
-  },
 }
 </script>
 
