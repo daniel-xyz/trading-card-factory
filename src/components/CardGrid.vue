@@ -1,6 +1,9 @@
 <template>
   <div class="card-grid">
-    <card v-for="(card, index) in cards" :key="index" :card="card"/>
+    <div v-for="(card, index) in cards" :key="index" class="card-container">
+      <card :card="card"/>
+      <button v-if="buyButton" class="buy-button">Buy for Ξ {{ $web3.utils.fromWei($web3.utils.toBN(card.weiPrice), 'ether') }} </button>
+    </div>
   </div>
 </template>
 
@@ -16,12 +19,29 @@ export default {
       type: Array,
       default: () => [],
     },
+    buyButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    cards(cards) {
+      console.log(this.$web3)
+      console.log(this.$web3.utils.isBN(cards[0].weiPrice))
+      console.log(cards[0].weiPrice)
+    },
   },
 }
 </script>
 
 <style scoped>
-.card-grid > .card {
+.card-grid > .card-container {
+  display: inline-block;
   margin: 0.8rem;
+}
+
+.buy-button {
+  display: block;
+  margin: 8px auto auto;
 }
 </style>

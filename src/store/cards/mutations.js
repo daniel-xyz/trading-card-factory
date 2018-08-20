@@ -8,11 +8,13 @@ function transformValueArraysToCards(web3, values) {
 
   for (let i = 0; i < cardsCount; i++) {
     cards.push({
-      title: web3.utils.toAscii(values[0][i]),
-      attack: values[1][i].toNumber(),
-      defense: values[2][i].toNumber(),
-      creator: values[3][i],
-      artwork: getIpfsHashFromBytes32(values[4][i]),
+      id: values[0][i].toNumber(),
+      title: web3.utils.toAscii(values[1][i]),
+      attack: values[2][i].toNumber(),
+      defense: values[3][i].toNumber(),
+      creator: values[4][i],
+      artwork: getIpfsHashFromBytes32(values[5][i]),
+      weiPrice: values[6][i],
     })
   }
 

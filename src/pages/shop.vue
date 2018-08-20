@@ -6,12 +6,12 @@
       </h1>
 
       <h2 class="subtitle">
-        Every time you buy a card, the creator of it will be rewarded!
+        Every time you buy a card, it's creator will be rewarded!
       </h2>
 
       <button-menu/>
 
-      <card-grid :cards="allCards"/>
+      <card-grid :cards="allCards" :buy-button="true"/>
     </div>
   </section>
 </template>
