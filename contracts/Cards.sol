@@ -66,7 +66,7 @@ contract Cards {
 	function buyCard(uint _id) payable public {
         Card storage card = cards[_id];
 
-        require(msg.value < card.weiPrice, "You've sent not enough ETH.");
+        require(msg.value == card.weiPrice, "You've sent not enough or too much ETH.");
 
 		cardsOwned[msg.sender].push(card);
 

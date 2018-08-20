@@ -2,12 +2,13 @@
   <div class="card-grid">
     <div v-for="(card, index) in cards" :key="index" class="card-container">
       <card :card="card"/>
-      <button v-if="buyButton" class="buy-button">Buy for Ξ {{ $web3.utils.fromWei($web3.utils.toBN(card.weiPrice), 'ether') }} </button>
+      <button v-if="buyButton" class="buy-button" @click="buyCard(card)">Buy for Ξ {{ $web3.utils.fromWei($web3.utils.toBN(card.weiPrice), 'ether') }} </button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Card from '~/components/Card'
 
 export default {
@@ -23,6 +24,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  methods: {
+    ...mapActions(['buyCard']),
   },
 }
 </script>
