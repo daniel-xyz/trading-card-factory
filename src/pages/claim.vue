@@ -8,16 +8,22 @@
         If you've created a Card you'll get rewarded every time someone finds it in a Booster Pack.
       </h2>
       <button-menu/>
+
+      <button @click="claimRewards">Claim Rewards</button>
     </div>
   </section>
 </template>
 
 <script>
 import ButtonMenu from '~/components/ButtonMenu'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
     ButtonMenu,
+  },
+  methods: {
+    ...mapActions(['claimRewards']),
   },
 }
 </script>

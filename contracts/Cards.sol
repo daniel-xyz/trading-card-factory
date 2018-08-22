@@ -7,6 +7,7 @@ contract Cards {
 
 	Card[] cards;
 	mapping(address => Card[]) cardsOwned;
+	mapping(address => uint256) public openRewardsInWei;
 
 	event CreatedCard(bytes32 title, address creator, uint totalCards);
 	event BoughtCard(uint id, address byAddress);
@@ -75,8 +76,21 @@ contract Cards {
         require(msg.value == card.weiPrice, "You've sent not enough or too much ETH.");
 
 		cardsOwned[msg.sender].push(card);
+		openRewardsInWei[card.creator] = openRewardsInWei[card.creator].add(card.weiPrice);
 
 		emit BoughtCard(_id, msg.sender);
+	}
+
+	function claimRewards() public returns(uint256 claimedRewards){
+		uint256 openRewards = openRewardsInWei[msg.sender];
+
+		require(openRewards > 0);
+		require(address(this).balance >= openRewards, "Not enough balance in contract.");
+
+		claimedRewards = openRewards;
+		openRewards = 0;
+
+		msg.sender.transfer(claimedRewards);
 	}
 
 	function getCalculatedPriceInWei(uint8 _multiplierA, uint8 _multiplierB) private pure returns(uint256 price) {

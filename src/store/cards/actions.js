@@ -54,8 +54,16 @@ export default {
 
         window.setTimeout(() => this.dispatch('loadCardsOwned'), 10000)
 
-        console.log('Transaction processed: ', { id: args.id, byAddress: args.byAddress })
+        console.log('Transaction processed: ', { id: args.id.toNumber(), byAddress: args.byAddress })
       })
       .catch(e => console.error('Could not buy card', e))
+  },
+  async claimRewards() {
+    await prepare.call(this)
+
+    instance.claimRewards
+      .call({ from: accounts[0] })
+      .then(values => console.log('Claimed ' + values))
+      .catch(e => console.error('Could not claim rewards', e))
   },
 }
