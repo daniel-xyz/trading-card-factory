@@ -11,12 +11,10 @@
 
       <button-menu/>
 
-      <div v-for="(card, index) in ownCards" :key="index">
-        Title: {{ card.title }} <br>
-        Attack: {{ card.attack }} <br>
-        Defense: {{ card.defense }} <br>
-        Creator: {{ card.creator }} <br>
-        Artwork: {{ card.artwork }}
+      <card-grid :cards="ownCards"/>
+
+      <div v-if="!ownCards || !ownCards.length">
+        You don't have any cards yet. Let's <nuxt-link to="/shop">buy</nuxt-link> some!
       </div>
     </div>
   </section>
@@ -25,19 +23,21 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ButtonMenu from '~/components/ButtonMenu'
+import CardGrid from '~/components/CardGrid'
 
 export default {
   components: {
     ButtonMenu,
+    CardGrid,
   },
   computed: {
     ...mapGetters(['ownCards']),
   },
   created() {
-    this.loadGenesisCard()
+    this.loadCardsOwned()
   },
   methods: {
-    ...mapActions(['loadGenesisCard']),
+    ...mapActions(['loadCardsOwned']),
   },
 }
 </script>

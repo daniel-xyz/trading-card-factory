@@ -5,11 +5,11 @@ import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 contract Cards {
 	using SafeMath for uint;
 
-	Card[] public cards;
+	Card[] cards;
 	mapping(address => Card[]) cardsOwned;
 
 	event CreatedCard(bytes32 title, address creator, uint totalCards);
-	event BoughtCard(bytes32 title);
+	event BoughtCard(uint id, address byAddress);
 
 	struct Card {
 		bytes32 title;
@@ -33,28 +33,34 @@ contract Cards {
 		emit CreatedCard(_title, msg.sender, cards.length);
 	}
 
-	function getCards() public view returns(uint[], bytes32[], uint8[], uint8[], address[], bytes32[], uint256[]) {
-		uint cardsCount = cards.length;
+	function getCards() public view returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint256[]) {
+		return mapCardsToArraysTuple(cards);
+	}
 
+	function getCardsOwned() public view returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint256[]) {
+		return mapCardsToArraysTuple(cardsOwned[msg.sender]);
+	}
+
+	function mapCardsToArraysTuple(Card[] _cards) internal pure returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint256[]) {
+		uint cardsCount = _cards.length;
+		
 		uint[] memory ids = new uint[](cardsCount);
 		bytes32[] memory titles = new bytes32[](cardsCount);
 		uint8[] memory attacks = new uint8[](cardsCount);
 		uint8[] memory defenses = new uint8[](cardsCount);
-		address[] memory creators = new address[](cardsCount);
 		bytes32[] memory artworks = new bytes32[](cardsCount);
 		uint256[] memory weiPrices = new uint256[](cardsCount);
 
 		for (uint i = 0; i < cardsCount; i++) {
 			ids[i] = i;
-			titles[i] = cards[i].title;
-			attacks[i] = cards[i].attack;
-			defenses[i] = cards[i].defense;
-			creators[i] = cards[i].creator;
-			artworks[i] = cards[i].artwork;
-			weiPrices[i] = cards[i].weiPrice;
+			titles[i] = _cards[i].title;
+			attacks[i] = _cards[i].attack;
+			defenses[i] = _cards[i].defense;
+			artworks[i] = _cards[i].artwork;
+			weiPrices[i] = _cards[i].weiPrice;
 		}
 
-		return (ids, titles, attacks, defenses, creators, artworks, weiPrices);
+		return (ids, titles, attacks, defenses, artworks, weiPrices);
 	}
 
 	function getGenesisCard() public view returns(bytes32, uint8, uint8, address, bytes32, uint256) {
@@ -70,10 +76,10 @@ contract Cards {
 
 		cardsOwned[msg.sender].push(card);
 
-		emit BoughtCard(card.title);
+		emit BoughtCard(_id, msg.sender);
 	}
 
-	function getCalculatedPriceInWei(uint8 _multiplierA, uint8 _multiplierB) private pure returns(uint256) {
+	function getCalculatedPriceInWei(uint8 _multiplierA, uint8 _multiplierB) private pure returns(uint256 price) {
 		uint256 baseMultiplier = 1000000000000000;
 		uint256 multiplierA = 1;
 		uint256 multiplierB = 1;
@@ -81,10 +87,8 @@ contract Cards {
 		if (_multiplierA > 0) multiplierA = _multiplierA;
 		if (_multiplierB > 0) multiplierB = _multiplierB;
 
-		uint256 price = baseMultiplier.mul(multiplierA).mul(multiplierB);
+		price = baseMultiplier.mul(multiplierA).mul(multiplierB);
 
 		if (price < baseMultiplier) price = baseMultiplier;
-
-		return price;
 	}
 }

@@ -14,14 +14,6 @@ async function prepare() {
 }
 
 export default {
-  async loadGenesisCard({ commit }) {
-    await prepare.call(this)
-
-    instance.getGenesisCard
-      .call()
-      .then(values => commit('SET_OWN_CARDS', values))
-      .catch(e => console.error('Could not load genesis card', e))
-  },
   async createCard(ctx, { title, attack, defense, artwork }) {
     await prepare.call(this)
 
@@ -29,6 +21,8 @@ export default {
       .createCard(title, attack, defense, getBytes32FromIpfsHash(artwork), { from: accounts[0] })
       .then(result => {
         const args = result.logs[0].args
+
+        window.setTimeout(() => this.dispatch('loadCards'), 10000)
 
         console.log('Transaction processed: ', { totalCards: args.totalCards.toNumber() })
       })
@@ -38,9 +32,17 @@ export default {
     await prepare.call(this)
 
     instance.getCards
-      .call()
+      .call({ from: accounts[0] })
       .then(values => commit('SET_ALL_CARDS', values))
       .catch(e => console.error('Could not load cards', e))
+  },
+  async loadCardsOwned({ commit }) {
+    await prepare.call(this)
+
+    instance.getCardsOwned
+      .call({ from: accounts[0] })
+      .then(values => commit('SET_OWN_CARDS', values))
+      .catch(e => console.error('Could not load cards owned', e))
   },
   async buyCard(ctx, { id, weiPrice }) {
     await prepare.call(this)
@@ -50,7 +52,9 @@ export default {
       .then(result => {
         const args = result.logs[0].args
 
-        console.log('Transaction processed: ', { title: args.title })
+        window.setTimeout(() => this.dispatch('loadCardsOwned'), 10000)
+
+        console.log('Transaction processed: ', { id: args.id, byAddress: args.byAddress })
       })
       .catch(e => console.error('Could not buy card', e))
   },
