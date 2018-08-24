@@ -7,10 +7,11 @@ contract Cards {
 
 	Card[] cards;
 	mapping(address => Card[]) cardsOwned;
-	mapping(address => uint256) public openRewardsInWei;
+	mapping(address => uint) public openRewardsInWei;
 
 	event CreatedCard(bytes32 title, address creator, uint totalCards);
 	event BoughtCard(uint id, address byAddress);
+	event ClaimedRewards(address receiver, uint weiLeftInContract, uint amount);
 
 	struct Card {
 		bytes32 title;
@@ -18,7 +19,7 @@ contract Cards {
 		uint8 defense;
 		address creator;
 		bytes32 artwork;
-		uint256 weiPrice;
+		uint weiPrice;
 	}
 	
 	constructor() public {
@@ -27,22 +28,22 @@ contract Cards {
 	}
 
 	function createCard(bytes32 _title, uint8 _attack, uint8 _defense, bytes32 _artwork) public {
-		uint256 calculatedPrice = getCalculatedPriceInWei(_attack, _defense);
+		uint calculatedPrice = getCalculatedPriceInWei(_attack, _defense);
 
 		cards.push(Card(_title, _attack, _defense, msg.sender, _artwork, calculatedPrice));
 
 		emit CreatedCard(_title, msg.sender, cards.length);
 	}
 
-	function getCards() public view returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint256[]) {
+	function getCards() public view returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint[]) {
 		return mapCardsToArraysTuple(cards);
 	}
 
-	function getCardsOwned() public view returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint256[]) {
+	function getCardsOwned() public view returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint[]) {
 		return mapCardsToArraysTuple(cardsOwned[msg.sender]);
 	}
 
-	function mapCardsToArraysTuple(Card[] _cards) internal pure returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint256[]) {
+	function mapCardsToArraysTuple(Card[] _cards) internal pure returns(uint[], bytes32[], uint8[], uint8[], bytes32[], uint[]) {
 		uint cardsCount = _cards.length;
 		
 		uint[] memory ids = new uint[](cardsCount);
@@ -50,7 +51,7 @@ contract Cards {
 		uint8[] memory attacks = new uint8[](cardsCount);
 		uint8[] memory defenses = new uint8[](cardsCount);
 		bytes32[] memory artworks = new bytes32[](cardsCount);
-		uint256[] memory weiPrices = new uint256[](cardsCount);
+		uint[] memory weiPrices = new uint[](cardsCount);
 
 		for (uint i = 0; i < cardsCount; i++) {
 			ids[i] = i;
@@ -64,7 +65,7 @@ contract Cards {
 		return (ids, titles, attacks, defenses, artworks, weiPrices);
 	}
 
-	function getGenesisCard() public view returns(bytes32, uint8, uint8, address, bytes32, uint256) {
+	function getGenesisCard() public view returns(bytes32, uint8, uint8, address, bytes32, uint) {
 		Card storage card = cards[0];
 
 		return (card.title, card.attack, card.defense, card.creator, card.artwork, card.weiPrice);
@@ -81,22 +82,23 @@ contract Cards {
 		emit BoughtCard(_id, msg.sender);
 	}
 
-	function claimRewards() public returns(uint256 claimedRewards){
-		uint256 openRewards = openRewardsInWei[msg.sender];
+	function claimRewards() public {
+		uint amount = openRewardsInWei[msg.sender];
 
-		require(openRewards > 0);
-		require(address(this).balance >= openRewards, "Not enough balance in contract.");
+		require(amount > 0);
+		require(address(this).balance >= amount, "Not enough balance in contract.");
 
-		claimedRewards = openRewards;
-		openRewards = 0;
+		openRewardsInWei[msg.sender] = 0;
 
-		msg.sender.transfer(claimedRewards);
+		msg.sender.transfer(amount);
+		
+		emit ClaimedRewards(msg.sender, address(this).balance, amount);
 	}
 
-	function getCalculatedPriceInWei(uint8 _multiplierA, uint8 _multiplierB) private pure returns(uint256 price) {
-		uint256 baseMultiplier = 1000000000000000;
-		uint256 multiplierA = 1;
-		uint256 multiplierB = 1;
+	function getCalculatedPriceInWei(uint8 _multiplierA, uint8 _multiplierB) private pure returns(uint price) {
+		uint baseMultiplier = 1000000000000000;
+		uint multiplierA = 1;
+		uint multiplierB = 1;
 
 		if (_multiplierA > 0) multiplierA = _multiplierA;
 		if (_multiplierB > 0) multiplierB = _multiplierB;

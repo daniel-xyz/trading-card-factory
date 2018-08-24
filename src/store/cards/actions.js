@@ -61,9 +61,9 @@ export default {
   async claimRewards() {
     await prepare.call(this)
 
-    instance.claimRewards
-      .call({ from: accounts[0] })
-      .then(values => console.log('Claimed ' + values))
+    instance
+      .claimRewards({ from: accounts[0] })
+      .then(() => console.log('Claimed rewards for address ' + accounts[0]))
       .catch(e => console.error('Could not claim rewards', e))
   },
 }
