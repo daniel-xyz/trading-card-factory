@@ -32,13 +32,18 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
-  modules: [],
+  modules: ['@nuxtjs/toast'],
+
+  toast: {
+    position: 'top-right',
+    duration: 5000,
+  },
 
   /*
   ** Build configuration
   */
   build: {
-    vendor: ['web3'],
+    vendor: ['web3', 'ipfs-api'],
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {

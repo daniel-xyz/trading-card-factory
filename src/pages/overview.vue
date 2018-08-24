@@ -6,7 +6,7 @@
       </h1>
 
       <h2 class="subtitle">
-        All Cards your Ethereum address owns.
+        All cards your ethereum address owns.
       </h2>
 
       <button-menu/>
@@ -22,6 +22,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+
 import ButtonMenu from '~/components/ButtonMenu'
 import CardGrid from '~/components/CardGrid'
 

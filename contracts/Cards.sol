@@ -10,7 +10,7 @@ contract Cards {
 	mapping(address => uint) public openRewardsInWei;
 
 	event CreatedCard(bytes32 title, address creator, uint totalCards);
-	event BoughtCard(uint id, address byAddress);
+	event BoughtCard(bytes32 title, address byAddress);
 	event ClaimedRewards(address receiver, uint weiLeftInContract, uint amount);
 
 	struct Card {
@@ -74,12 +74,12 @@ contract Cards {
 	function buyCard(uint _id) payable public {
         Card storage card = cards[_id];
 
-        require(msg.value == card.weiPrice, "You've sent not enough or too much ETH.");
+        require(msg.value == card.weiPrice, "You've not sent enough or too much ETH.");
 
 		cardsOwned[msg.sender].push(card);
 		openRewardsInWei[card.creator] = openRewardsInWei[card.creator].add(card.weiPrice);
 
-		emit BoughtCard(_id, msg.sender);
+		emit BoughtCard(card.title, msg.sender);
 	}
 
 	function claimRewards() public {

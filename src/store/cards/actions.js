@@ -24,9 +24,9 @@ export default {
 
         window.setTimeout(() => this.dispatch('loadCards'), 10000)
 
-        console.log('Transaction processed: ', { totalCards: args.totalCards.toNumber() })
+        this.$toast.show(`Successfully created ${this.$web3.utils.toAscii(args.title)}`, { type: 'success' })
       })
-      .catch(e => console.error('Could not create card', e))
+      .catch(() => this.$toast.show(`Couldn't create card. Maybe try again with a higher Gas Limit.`, { type: 'error' }))
   },
   async loadCards({ commit }) {
     await prepare.call(this)
@@ -34,7 +34,7 @@ export default {
     instance.getCards
       .call({ from: accounts[0] })
       .then(values => commit('SET_ALL_CARDS', values))
-      .catch(e => console.error('Could not load cards', e))
+      .catch(() => this.$toast.show(`Couldn't load cards.`, { type: 'error' }))
   },
   async loadCardsOwned({ commit }) {
     await prepare.call(this)
@@ -42,7 +42,15 @@ export default {
     instance.getCardsOwned
       .call({ from: accounts[0] })
       .then(values => commit('SET_OWN_CARDS', values))
-      .catch(e => console.error('Could not load cards owned', e))
+      .catch(() => this.$toast.show(`Couldn't load cards.`, { type: 'error' }))
+  },
+  async loadOpenRewards({ commit }) {
+    await prepare.call(this)
+
+    instance.openRewardsInWei
+      .call(accounts[0], { from: accounts[0] })
+      .then(wei => commit('SET_OPEN_REWARDS', wei))
+      .catch(() => this.$toast.show(`Couldn't load open rewards.`, { type: 'error' }))
   },
   async buyCard(ctx, { id, weiPrice }) {
     await prepare.call(this)
@@ -50,20 +58,29 @@ export default {
     instance
       .buyCard(id, { from: accounts[0], value: weiPrice })
       .then(result => {
+        console.log(result)
         const args = result.logs[0].args
 
         window.setTimeout(() => this.dispatch('loadCardsOwned'), 10000)
 
-        console.log('Transaction processed: ', { id: args.id.toNumber(), byAddress: args.byAddress })
+        this.$toast.show(`Successfully bought ${this.$web3.utils.toAscii(args.title)}`, { type: 'success' })
       })
-      .catch(e => console.error('Could not buy card', e))
+      .catch(() => this.$toast.show(`Couldn't buy card. Maybe you haven't enough ETH?`, { type: 'error' }))
   },
   async claimRewards() {
     await prepare.call(this)
 
     instance
       .claimRewards({ from: accounts[0] })
-      .then(() => console.log('Claimed rewards for address ' + accounts[0]))
-      .catch(e => console.error('Could not claim rewards', e))
+      .then(result => {
+        const args = result.logs[0].args
+
+        window.setTimeout(() => this.dispatch('loadOpenRewards'), 10000)
+
+        this.$toast.show(`Successfully claimed Ξ ${this.$web3.utils.fromWei(this.$web3.utils.toBN(args.amount), 'ether')}`, {
+          type: 'success',
+        })
+      })
+      .catch(() => this.$toast.show('Could not claim rewards. Maybe try again with a higher Gas Limit.', { type: 'error' }))
   },
 }

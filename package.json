@@ -23,6 +23,7 @@
     "web3": "^1.0.0-beta.35"
   },
   "dependencies": {
+    "@nuxtjs/toast": "^3.0.1",
     "bs58": "^4.0.1",
     "ipfs-api": "^23.0.0",
     "nuxt": "^1.4.2"

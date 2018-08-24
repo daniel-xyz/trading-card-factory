@@ -17,9 +17,10 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 import ButtonMenu from '~/components/ButtonMenu'
 import CardGrid from '~/components/CardGrid'
-import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {

@@ -6,7 +6,7 @@
       </h1>
 
       <h2 class="subtitle">
-        It will show up in the Card Shop afterwards. You'll even get paid whenever someone buys your Card.
+        It will show up in the card shop afterwards. You'll even get paid whenever someone buys your card.
       </h2>
 
       <button-menu/>
@@ -41,7 +41,7 @@
         </div>
 
         <div v-if="validationError" class="error">Please fill out the form and upload an image! 🧐</div>
-        <button type="submit" class="submit-button margin-top-l">Create on Blockchain</button>
+        <base-button type="submit" class="submit-base-button margin-top-l">Create on Blockchain</base-button>
       </form>
     </div>
   </section>
@@ -50,6 +50,7 @@
 <script>
 import { mapActions } from 'vuex'
 import ButtonMenu from '~/components/ButtonMenu'
+import BaseButton from '~/components/BaseButton'
 
 const IPFS_ERROR =
   "Please wait while the artwork is being uploaded. If for unknown reasons your image couldn't be uploaded, our IT sends you their apologies. Maybe choose another image?"
@@ -58,6 +59,7 @@ export default {
   name: 'Create',
   components: {
     ButtonMenu,
+    BaseButton,
   },
   data() {
     return {

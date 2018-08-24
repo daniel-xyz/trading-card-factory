@@ -1,51 +1,48 @@
 <template>
   <div class="links">
-    <nuxt-link
-      v-if="$route.name !== 'index'"
-      class="button"
-      to="/">
-      Home
+    <nuxt-link v-if="$route.name !== 'index'" to="/">
+      <base-button class="button">
+        Home
+      </base-button>
     </nuxt-link>
 
-    <nuxt-link
-      :class="{ 'button--selected': selected === 'create'}"
-      class="button"
-      to="/create">
-      Create Card
+    <nuxt-link to="/create">
+      <base-button :is-selected="isRoute('create')" class="button">
+        Create Card
+      </base-button>
     </nuxt-link>
 
-    <nuxt-link
-      :class="{ 'button--selected': selected === 'shop'}"
-      class="button"
-      to="/shop">
-      Card Shop
+    <nuxt-link to="/shop">
+      <base-button :is-selected="isRoute('shop')" class="button">
+        Card Shop
+      </base-button>
     </nuxt-link>
 
-    <nuxt-link
-      :class="{ 'button--selected': selected === 'overview'}"
-      class="button"
-      to="/overview">
-      My Cards
+    <nuxt-link to="/overview">
+      <base-button :is-selected="isRoute('overview')" class="button">
+        My Cards
+      </base-button>
     </nuxt-link>
 
-    <nuxt-link
-      :class="{ 'button--selected': selected === 'claim'}"
-      class="button"
-      to="/claim">
-      Claim Rewards
+    <nuxt-link to="/claim">
+      <base-button :is-selected="isRoute('claim')" class="button">
+        Claim Rewards
+      </base-button>
     </nuxt-link>
   </div>
 </template>
 
 <script>
+import BaseButton from '~/components/BaseButton'
+
 export default {
-  data() {
-    return {
-      selected: null,
-    }
+  components: {
+    BaseButton,
   },
-  created() {
-    this.selected = this.$route.name
+  methods: {
+    isRoute(name) {
+      return this.$route.name === name
+    },
   },
 }
 </script>
@@ -56,18 +53,6 @@ export default {
 }
 
 .button {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
   margin-left: 15px;
-}
-
-.button:hover,
-.button--selected {
-  color: #fff;
-  background-color: #3b8070;
 }
 </style>

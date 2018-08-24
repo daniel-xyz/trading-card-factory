@@ -1,6 +1,7 @@
 import { getIpfsHashFromBytes32 } from '@/utils/ipfs'
 import { SET_ALL_CARDS } from './mutation-types'
 import { SET_OWN_CARDS } from './mutation-types'
+import { SET_OPEN_REWARDS } from './mutation-types'
 
 function transformValueArraysToCards(web3, values) {
   const cardsCount = values[0].length
@@ -26,5 +27,8 @@ export default {
   },
   [SET_OWN_CARDS](state, values) {
     state.ownCards = transformValueArraysToCards(this.$web3, values)
+  },
+  [SET_OPEN_REWARDS](state, wei) {
+    state.openRewards = wei.toNumber()
   },
 }
