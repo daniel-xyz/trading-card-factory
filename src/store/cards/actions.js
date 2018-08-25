@@ -58,7 +58,6 @@ export default {
     instance
       .buyCard(id, { from: accounts[0], value: weiPrice })
       .then(result => {
-        console.log(result)
         const args = result.logs[0].args
 
         window.setTimeout(() => this.dispatch('loadCardsOwned'), 10000)

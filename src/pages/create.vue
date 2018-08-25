@@ -123,7 +123,6 @@ export default {
           }
 
           this.ipfsHash = result[0].hash
-          console.log('ipfsHash', this.ipfsHash)
           this.isUploading = false
 
           resolve(this.ipfsHash)

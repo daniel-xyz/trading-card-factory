@@ -1,2 +1,31 @@
 # trading-card-factory
-Create &amp; collect ERC-721 compatible cards. Claim rewards when others find your created cards in booster packs. Simple UI for demonstration purposes.
+
+Create &amp; collect trading cards. It's just a prototype - you can create as many trading cards as you like and you'll get rewarded the full card price (which is calculated automatically) when someone purchases it in the shop. Card artworks are stored on IPFS.
+
+In a real application, not everyone would be allowed to create cards (or there would be a more complicated governance/voting process behind it) and cards would probably be sold in Booster Packs and not directly.
+
+### Requirements
+
+Schema: _package_ (_tested with version_)
+
+- node.js (10.7.0)
+- npm (6.2.0)
+- truffle (4.1.13)
+- solidity (0.4.24)
+- metamask (4.9.3)
+
+### Setup
+
+1. Install packages: `npm i`
+2. Compile contracts: `truffle compile --reset` (maybe it works without _--reset_, but it's the safer option)
+3. Migrate contracts: `truffle migrate --reset`
+4. Start development server: `npm run dev`
+5. Visit `http.//localhost:3000`
+
+### Troubleshooting
+
+1. Don't use the Beta version of Metamask. It has been developed for Metamask 4.9.3.
+2. Reset your account in Metamask, sometime not doing this can cause problems (_Settings_ -> _Reset Account_)
+3. If a transaction fails, try to re-send it with a higher Gas Limit (eg. 60'000)
+
+If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer you asap! :)
