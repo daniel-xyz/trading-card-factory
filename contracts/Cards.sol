@@ -86,7 +86,7 @@ contract Cards {
 		uint amount = openRewardsInWei[msg.sender];
 
 		require(amount > 0);
-		require(address(this).balance >= amount, "Not enough balance in contract.");
+		require(address(this).balance >= amount, "Not enough balance in contract."); // TODO - enter failsafe
 
 		openRewardsInWei[msg.sender] = 0;
 
