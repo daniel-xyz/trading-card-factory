@@ -21,6 +21,7 @@ Schema: _package_ (_tested with version_)
 3. Migrate contracts: `truffle migrate --reset`
 4. Start development server: `npm run dev`
 5. Visit `http.//localhost:3000`
+6. Let tests run with `truffle test`
 
 ### Troubleshooting
 

@@ -7,8 +7,8 @@ contract Cards {
 
 	address private owner;
 	bool private isEmergencyMode = false;
-	Card[] cards;
-	mapping(address => Card[]) cardsOwned;
+	Card[] private cards;
+	mapping(address => Card[]) private cardsOwned;
 	mapping(address => uint) public openRewardsInWei;
 
 	event CreatedCard(bytes32 title, address creator, uint totalCards);
