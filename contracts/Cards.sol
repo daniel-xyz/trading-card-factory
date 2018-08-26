@@ -5,6 +5,8 @@ import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 contract Cards {
 	using SafeMath for uint;
 
+	address private owner;
+	bool private isEmergencyMode = false;
 	Card[] cards;
 	mapping(address => Card[]) cardsOwned;
 	mapping(address => uint) public openRewardsInWei;
@@ -21,13 +23,38 @@ contract Cards {
 		bytes32 artwork;
 		uint weiPrice;
 	}
+
+	modifier isOwner() {
+		require(owner == msg.sender);
+		_;
+	}
+
+	modifier stopInEmergency { 
+		require(!isEmergencyMode);
+		_;
+	 }
+
+	modifier onlyInEmergency {
+		require(isEmergencyMode);
+		_;
+	}
 	
 	constructor() public {
+		owner = msg.sender;
+
 		createCard('Friendly Dragon', 12, 30, 0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8);
 		createCard('Unhappy Dragon', 43, 9, 0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8);
 	}
 
-	function createCard(bytes32 _title, uint8 _attack, uint8 _defense, bytes32 _artwork) public {
+	function stopEmergencyMode() public isOwner onlyInEmergency {
+		isEmergencyMode = false;
+	}
+
+	function startEmergencyMode() private {
+		isEmergencyMode = true;
+	}
+
+	function createCard(bytes32 _title, uint8 _attack, uint8 _defense, bytes32 _artwork) public stopInEmergency {
 		uint calculatedPrice = getCalculatedPriceInWei(_attack, _defense);
 
 		cards.push(Card(_title, _attack, _defense, msg.sender, _artwork, calculatedPrice));
@@ -71,7 +98,7 @@ contract Cards {
 		return (card.title, card.attack, card.defense, card.creator, card.artwork, card.weiPrice);
 	}
 
-	function buyCard(uint _id) payable public {
+	function buyCard(uint _id) payable public stopInEmergency {
         Card storage card = cards[_id];
 
         require(msg.value == card.weiPrice, "You've not sent enough or too much ETH.");
@@ -86,7 +113,12 @@ contract Cards {
 		uint amount = openRewardsInWei[msg.sender];
 
 		require(amount > 0);
-		require(address(this).balance >= amount, "Not enough balance in contract."); // TODO - enter failsafe
+
+		if (address(this).balance < amount) {
+			startEmergencyMode();
+
+			revert("This contract does not hold enough ETH. Seems like something went wrong badly. The contract will now enter the emergency mode - claiming rewards might still be possible.");
+		}
 
 		openRewardsInWei[msg.sender] = 0;
 
