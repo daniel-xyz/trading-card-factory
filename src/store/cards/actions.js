@@ -64,7 +64,7 @@ export default {
 
         this.$toast.show(`Successfully bought ${this.$web3.utils.toAscii(args.title)}`, { type: 'success' })
       })
-      .catch(() => this.$toast.show(`Couldn't buy card. Maybe you haven't enough ETH?`, { type: 'error' }))
+      .catch(() => this.$toast.show(`Error while trying to buy the card.`, { type: 'error' }))
   },
   async claimRewards() {
     await prepare.call(this)
