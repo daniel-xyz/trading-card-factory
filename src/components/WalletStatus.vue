@@ -1,13 +1,13 @@
 <template>
   <div class="wallet-status">
-    <strong>Wallet Status:</strong>
+    <strong>Wallet Status</strong>
     
-    <span v-if="!account" class="error">Not connected</span>
+    <div v-if="!account" class="error">Not connected</div>
 
     <template v-else>
-      <div class="success">::: Connected</div>
-      <div> ::: Address: {{ account }}</div>
-      <div> ::: Balance: Ξ {{ $web3.utils.fromWei($web3.utils.toBN(balance), 'ether') }}</div>
+      <div>::: <span class="success">Connected</span></div>
+      <div>::: Address: {{ account }}</div>
+      <div>::: Balance: Ξ {{ $web3.utils.fromWei($web3.utils.toBN(balance), 'ether') }}</div>
     </template>
   </div>
 </template>
