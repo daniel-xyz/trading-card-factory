@@ -24,6 +24,7 @@ button {
   font-size: 16px;
   text-decoration: none;
   color: #3b8070;
+  background-color: #fff;
   cursor: pointer;
 }
 

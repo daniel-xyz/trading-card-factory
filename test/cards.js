@@ -24,6 +24,7 @@ function getTransaction(tx) {
   })
 }
 
+// Test if cards are created and stored properly, since this is a main part of the Card contract.
 contract('Card - Creation', accounts => {
   it('should create the initial cards', async () => {
     const instance = await Cards.deployed()
@@ -68,6 +69,7 @@ contract('Card - Creation', accounts => {
   })
 })
 
+// Test if cards can be bought and that the contract cannot be tricked by paying less than intended.
 contract('Card - Shop', accounts => {
   it('should buy a card', async () => {
     const instance = await Cards.deployed()
@@ -95,6 +97,7 @@ contract('Card - Shop', accounts => {
   })
 })
 
+// Test if rewards and withdraws of those are credited to the right account in the right amount.
 contract('Card - Rewards', accounts => {
   it('should increase claimable rewards for creator', async () => {
     const instance = await Cards.deployed()

@@ -16,14 +16,6 @@ html {
   margin: 0;
 }
 
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  padding: 24px;
-}
-
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;

@@ -35,8 +35,8 @@ export default {
 
 <style scoped>
 .wallet-status {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
+  text-align: left;
+  margin-left: 24px;
+  margin-bottom: 24px;
 }
 </style>

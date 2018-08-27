@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <wallet-status/>
+  <div class="container">
     <nuxt/>
+    <wallet-status/>
   </div>
 </template>
 
@@ -15,3 +15,13 @@ export default {
 }
 </script>
 
+<style scoped>
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  padding: 24px;
+}
+</style>

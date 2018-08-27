@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section>
     <div>
       <h1 class="title">
         Trading Card Factory
@@ -23,10 +23,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  align-items: center;
-}
-
 .title {
   font-size: 100px;
 }

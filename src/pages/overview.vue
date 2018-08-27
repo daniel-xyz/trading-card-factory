@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section>
     <div>
       <h1 class="title">
         My Cards

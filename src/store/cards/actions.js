@@ -66,7 +66,7 @@ export default {
       })
       .catch(() => this.$toast.show(`Error while trying to buy the card.`, { type: 'error' }))
   },
-  async claimRewards() {
+  async claimRewards({ commit }) {
     await prepare.call(this)
 
     instance
@@ -81,5 +81,6 @@ export default {
         })
       })
       .catch(() => this.$toast.show('Could not claim rewards.', { type: 'error' }))
+      .then(() => commit('SET_OPEN_REWARDS', this.$web3.utils.toBN(0)))
   },
 }
