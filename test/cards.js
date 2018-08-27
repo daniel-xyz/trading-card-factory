@@ -1,17 +1,41 @@
 /* eslint-disable */
+import { transformValueArraysToCards } from '../src/utils/transformations'
+
 var Cards = artifacts.require('./Cards.sol')
 
 contract('Cards', accounts => {
-  it('should create the initial cards', () => {
-    return Cards.deployed()
-      .then(instance => {
-        return instance.getCards.call()
-      })
-      .then(values => {
-        assert.equal(web3.toUtf8(values[1][0]), 'Friendly Dragon', 'Title of the first card is not correct.')
-        assert.equal(web3.toUtf8(values[1][1]), 'Unhappy Dragon', 'Title of the second card is not correct.')
-      })
+  it('should create the initial cards', async () => {
+    const instance = await Cards.deployed()
+    const values = await instance.getCards.call()
+
+    const cards = transformValueArraysToCards(values)
+
+    assert.deepEqual(cards[0], {
+      id: 0,
+      title: 'Friendly Dragon',
+      attack: 12,
+      defense: 30,
+      artwork: 'QmfSMtT9a1rXWsSDwrUFf2Jnbb41Ec4dwGV5WcAAMPZopB',
+      weiPrice: web3.toBigNumber(360000000000000000),
+    })
+
+    assert.deepEqual(cards[1], {
+      id: 1,
+      title: 'Unhappy Dragon',
+      attack: 43,
+      defense: 9,
+      artwork: 'QmfSMtT9a1rXWsSDwrUFf2Jnbb41Ec4dwGV5WcAAMPZopB',
+      weiPrice: web3.toBigNumber(387000000000000000),
+    })
   })
+
+  // it('should create a new card', () => {
+  //   return Cards.deployed().then(instance => {
+  //     return instance.createCard.call('Pikachu', 2, 3, '0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8', {
+  //       from: accounts[0],
+  //     })
+  //   })
+  // })
   // it('should call a function that depends on a linked library', function() {
   //   var meta
   //   var CardsBalance
