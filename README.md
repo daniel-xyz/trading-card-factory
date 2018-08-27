@@ -18,16 +18,19 @@ Schema: _package_ (_tested with version_)
 ### Setup
 
 1. Install packages: `npm i`
-2. Compile contracts: `truffle compile --reset` (maybe it works without _--reset_, but it's the safer option)
-3. Migrate contracts: `truffle migrate --reset`
-4. Start development server: `npm run dev`
-5. Visit `http.//localhost:3000`
-6. Let tests run with `truffle test`
+2. Start your private Blockchain: `ganache-cli`
+3. Compile contracts: `truffle compile --reset` (maybe it works without _--reset_, but it's the safer option)
+4. Migrate contracts: `truffle migrate --reset`
+5. Start development server: `npm run dev`
+6. Visit: `http.//localhost:3000`
+7. Let tests run with: `truffle test`
 
 ### Troubleshooting
 
-1. Don't use the Beta version of Metamask. It has been developed for Metamask 4.9.3.
-2. Reset your account in Metamask, sometime not doing this can cause problems (_Settings_ -> _Reset Account_)
+1. Don't use the Beta version of Metamask. This project has been developed with Metamask 4.9.3 in mind.
+2. Reset your account in Metamask. Sometime not doing this can cause problems (_Settings_ -> _Reset Account_)
 3. If a transaction fails, try to re-send it with a higher Gas Limit (eg. 60'000)
 
-If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer you asap! :)
+If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer you asap.
+
+Enjoy! ❤️
