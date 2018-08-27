@@ -19,11 +19,12 @@ Schema: _package_ (_tested with version_)
 
 1. Install packages: `npm i`
 2. Start your private Blockchain: `ganache-cli`
-3. Compile contracts: `truffle compile --reset` (maybe it works without _--reset_, but it's the safer option)
-4. Migrate contracts: `truffle migrate --reset`
-5. Start development server: `npm run dev`
-6. Visit: `http.//localhost:3000`
-7. Let tests run with: `truffle test`
+3  Copy one of the private keys that ganache gives you and import the account in Metamask (make sure you are on the right local network, too!)
+4. Compile contracts: `truffle compile --reset` (maybe it works without _--reset_, but it's the safer option)
+5. Migrate contracts: `truffle migrate --reset`
+6. Start development server: `npm run dev`
+7. Visit: `http.//localhost:3000`
+8. Let tests run with: `truffle test`
 
 ### Troubleshooting
 
