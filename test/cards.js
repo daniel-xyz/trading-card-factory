@@ -115,31 +115,32 @@ contract('Card - Rewards', accounts => {
 
   it('should withdraw rewards to the creator', async () => {
     const instance = await Cards.deployed()
-    let rewards = await instance.openRewardsInWei.call(accounts[0])
-
-    // Initial balance
-    const initial = await getBalance(accounts[0])
-    console.log(`Initial: ${initial.toString()}`)
-
-    // Obtain gas used from the receipt
+    const rewards = await instance.openRewardsInWei.call(accounts[0])
+    const initialBalance = await getBalance(accounts[0])
     const receipt = await instance.claimRewards({ from: accounts[0] })
     const gasUsed = receipt.receipt.gasUsed
-    console.log(`GasUsed: ${receipt.receipt.gasUsed}`)
-
-    // Obtain gasPrice from the transaction
     const tx = await getTransaction(receipt.tx)
-    const gasPrice = tx.gasPrice
-    console.log(`GasPrice: ${tx.gasPrice}`)
+    const finalBalance = await getBalance(accounts[0])
 
-    // Final balance
-    const final = await getBalance(accounts[0])
-    console.log(`Final: ${final.toString()}`)
     assert.equal(
-      final
-        .add(gasPrice.mul(gasUsed))
+      finalBalance
+        .add(tx.gasPrice.mul(gasUsed))
         .sub(rewards)
         .toString(),
-      initial.toString()
+      initialBalance.toString()
     )
+  })
+
+  it('should reset claimable rewards to zero when claimed', async () => {
+    const instance = await Cards.deployed()
+    const rewardsLeft = await instance.openRewardsInWei.call(accounts[0])
+
+    assert.equal(web3.toBigNumber(rewardsLeft), 0)
+  })
+
+  it('should revert call to claimRewards() when account has now claimable rewards', async () => {
+    const instance = await Cards.deployed()
+
+    await catchRevert(instance.claimRewards({ from: accounts[1] }))
   })
 })
