@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import { getIpfsHashFromBytes32 } from '@/utils/ipfs'
-
 export default {
   props: {
     card: {
@@ -41,9 +39,7 @@ export default {
   },
   methods: {
     getImage() {
-      const validCID = getIpfsHashFromBytes32('0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8')
-
-      this.$ipfs.files.cat(validCID, (err, file) => {
+      this.$ipfs.files.cat(this.card.artwork, (err, file) => {
         if (err) {
           this.image.loaded = false
 
@@ -106,11 +102,19 @@ export default {
 }
 
 .artwork-container {
+  position: relative;
   height: 100%;
 }
 
 .artwork {
-  height: 176px;
+  max-height: 176px;
+  max-width: 100%;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .attack,
