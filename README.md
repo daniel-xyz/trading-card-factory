@@ -11,7 +11,7 @@ Schema: _package_ (_tested with version_)
 - node.js (10.7.0)
 - npm (6.2.0)
 - truffle (4.1.13)
-- ganache (1.2.1)
+- ganache-cli (6.1.8)
 - solidity (0.4.24)
 - metamask (4.9.3)
 

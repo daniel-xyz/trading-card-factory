@@ -80,6 +80,6 @@ export default {
           type: 'success',
         })
       })
-      .catch(() => this.$toast.show('Could not claim rewards. Maybe try again with a higher Gas Limit.', { type: 'error' }))
+      .catch(() => this.$toast.show('Could not claim rewards.', { type: 'error' }))
   },
 }
