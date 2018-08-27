@@ -1,14 +1,33 @@
 /* eslint-disable */
 import { transformValueArraysToCards } from '../src/utils/transformations'
+import { catchRevert } from './utils/exceptions'
 
-var Cards = artifacts.require('./Cards.sol')
+const Cards = artifacts.require('./Cards.sol')
 
-contract('Cards', accounts => {
+function getBalance(account) {
+  return new Promise((resolve, reject) => {
+    web3.eth.getBalance(account, (err, res) => {
+      if (err) reject(err)
+
+      resolve(res)
+    })
+  })
+}
+
+function getTransaction(tx) {
+  return new Promise((resolve, reject) => {
+    web3.eth.getTransaction(tx, (err, res) => {
+      if (err) reject(err)
+
+      resolve(res)
+    })
+  })
+}
+
+contract('Card - Creation', accounts => {
   it('should create the initial cards', async () => {
     const instance = await Cards.deployed()
-    const values = await instance.getCards.call()
-
-    const cards = transformValueArraysToCards(values)
+    const cards = transformValueArraysToCards(await instance.getCards.call())
 
     assert.deepEqual(cards[0], {
       id: 0,
@@ -29,82 +48,98 @@ contract('Cards', accounts => {
     })
   })
 
-  // it('should create a new card', () => {
-  //   return Cards.deployed().then(instance => {
-  //     return instance.createCard.call('Pikachu', 2, 3, '0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8', {
-  //       from: accounts[0],
-  //     })
-  //   })
-  // })
-  // it('should call a function that depends on a linked library', function() {
-  //   var meta
-  //   var CardsBalance
-  //   var CardsEthBalance
+  it('should create a new card', async () => {
+    const instance = await Cards.deployed()
 
-  //   return Cards.deployed()
-  //     .then(function(instance) {
-  //       meta = instance
-  //       return meta.getBalance.call(accounts[0])
-  //     })
-  //     .then(function(outCoinBalance) {
-  //       CardsBalance = outCoinBalance.toNumber()
-  //       return meta.getBalanceInEth.call(accounts[0])
-  //     })
-  //     .then(function(outCoinBalanceEth) {
-  //       CardsEthBalance = outCoinBalanceEth.toNumber()
-  //     })
-  //     .then(function() {
-  //       assert.equal(CardsEthBalance, 2 * CardsBalance, 'Library function returned unexpeced function, linkage may be broken')
-  //     })
-  // })
+    await instance.createCard('Pikachu', 2, 3, '0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8', {
+      from: accounts[0],
+    })
 
-  // it('should send coin correctly', function() {
-  //   var meta
+    const cards = transformValueArraysToCards(await instance.getCards.call())
 
-  //   //    Get initial balances of first and second account.
-  //   var account_one = accounts[0]
-  //   var account_two = accounts[1]
+    assert.deepEqual(cards[2], {
+      id: 2,
+      title: 'Pikachu',
+      attack: 2,
+      defense: 3,
+      artwork: 'QmfSMtT9a1rXWsSDwrUFf2Jnbb41Ec4dwGV5WcAAMPZopB',
+      weiPrice: web3.toBigNumber(6000000000000000),
+    })
+  })
+})
 
-  //   var account_one_starting_balance
-  //   var account_two_starting_balance
-  //   var account_one_ending_balance
-  //   var account_two_ending_balance
+contract('Card - Shop', accounts => {
+  it('should buy a card', async () => {
+    const instance = await Cards.deployed()
 
-  //   var amount = 10
+    await instance.buyCard(0, { from: accounts[0], value: 360000000000000000 })
 
-  //   return Cards.deployed()
-  //     .then(function(instance) {
-  //       meta = instance
-  //       return meta.getBalance.call(account_one)
-  //     })
-  //     .then(function(balance) {
-  //       account_one_starting_balance = balance.toNumber()
-  //       return meta.getBalance.call(account_two)
-  //     })
-  //     .then(function(balance) {
-  //       account_two_starting_balance = balance.toNumber()
-  //       return meta.sendCoin(account_two, amount, { from: account_one })
-  //     })
-  //     .then(function() {
-  //       return meta.getBalance.call(account_one)
-  //     })
-  //     .then(function(balance) {
-  //       account_one_ending_balance = balance.toNumber()
-  //       return meta.getBalance.call(account_two)
-  //     })
-  //     .then(function(balance) {
-  //       account_two_ending_balance = balance.toNumber()
+    const ownedCards = transformValueArraysToCards(await instance.getCardsOwned.call())
 
-  //       assert.equal(
-  //         account_one_ending_balance,
-  //         account_one_starting_balance - amount,
-  //         "Amount wasn't correctly taken from the sender"
-  //       )
-  //       assert.equal(
-  //         account_two_ending_balance,
-  //         account_two_starting_balance + amount,
-  //         "Amount wasn't correctly sent to the receiver"
-  //       )
-  //     })
-  // })
+    assert.deepEqual(ownedCards, [
+      {
+        id: 0,
+        title: 'Friendly Dragon',
+        attack: 12,
+        defense: 30,
+        artwork: 'QmfSMtT9a1rXWsSDwrUFf2Jnbb41Ec4dwGV5WcAAMPZopB',
+        weiPrice: web3.toBigNumber(360000000000000000),
+      },
+    ])
+  })
+
+  it('should revert call to buyCard() when sent value is too low', async () => {
+    const instance = await Cards.deployed()
+
+    await catchRevert(instance.buyCard(0, { from: accounts[0], value: 1337 }))
+  })
+})
+
+contract('Card - Rewards', accounts => {
+  it('should increase claimable rewards for creator', async () => {
+    const instance = await Cards.deployed()
+    let creatorRewards = await instance.openRewardsInWei.call(accounts[0])
+    let notCreatorRewards = await instance.openRewardsInWei.call(accounts[1])
+
+    assert.deepEqual(creatorRewards, web3.toBigNumber(0))
+    assert.deepEqual(notCreatorRewards, web3.toBigNumber(0))
+
+    await instance.buyCard(0, { from: accounts[3], value: 360000000000000000 })
+
+    creatorRewards = await instance.openRewardsInWei.call(accounts[0])
+    notCreatorRewards = await instance.openRewardsInWei.call(accounts[1])
+
+    assert.deepEqual(creatorRewards, web3.toBigNumber(360000000000000000))
+    assert.deepEqual(notCreatorRewards, web3.toBigNumber(0))
+  })
+
+  it('should withdraw rewards to the creator', async () => {
+    const instance = await Cards.deployed()
+    let rewards = await instance.openRewardsInWei.call(accounts[0])
+
+    // Initial balance
+    const initial = await getBalance(accounts[0])
+    console.log(`Initial: ${initial.toString()}`)
+
+    // Obtain gas used from the receipt
+    const receipt = await instance.claimRewards({ from: accounts[0] })
+    const gasUsed = receipt.receipt.gasUsed
+    console.log(`GasUsed: ${receipt.receipt.gasUsed}`)
+
+    // Obtain gasPrice from the transaction
+    const tx = await getTransaction(receipt.tx)
+    const gasPrice = tx.gasPrice
+    console.log(`GasPrice: ${tx.gasPrice}`)
+
+    // Final balance
+    const final = await getBalance(accounts[0])
+    console.log(`Final: ${final.toString()}`)
+    assert.equal(
+      final
+        .add(gasPrice.mul(gasUsed))
+        .sub(rewards)
+        .toString(),
+      initial.toString()
+    )
+  })
 })
