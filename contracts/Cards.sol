@@ -135,7 +135,7 @@ contract Cards {
 	function buyCard(uint _id) payable public stopInEmergency {
         Card storage card = cards[_id];
 
-        require(msg.value == card.weiPrice, "You've not sent enough or too much ETH.");
+        require(msg.value == card.weiPrice, "Sent value doesn't match price of the card.");
 
 		cardsOwned[msg.sender].push(card);
 		openRewardsInWei[card.creator] = openRewardsInWei[card.creator].add(card.weiPrice);
