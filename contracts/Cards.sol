@@ -25,28 +25,28 @@ contract Cards {
 	}
 
     /** @dev Reverts any call that is not made by the contract's owner.
-     */
+      */
 	modifier isOwner() {
 		require(owner == msg.sender);
 		_;
 	}
 
     /** @dev Reverts any call that is made during the emergency mode.
-     */
+      */
 	modifier stopInEmergency { 
 		require(!isEmergencyMode);
 		_;
 	 }
 
     /** @dev Reverts any call that is not made during the emergency mode.
-     */
+      */
 	modifier onlyInEmergency {
 		require(isEmergencyMode);
 		_;
 	}
 	
     /** @dev Sets the `owner` state variable the sender's address and creates to default cards.
-     */
+      */
 	constructor() public {
 		owner = msg.sender;
 
@@ -55,13 +55,13 @@ contract Cards {
 	}
 
     /** @dev Sets the `isEmergencyMode` state variable to `false`.
-     */
+      */
 	function stopEmergencyMode() public isOwner onlyInEmergency {
 		isEmergencyMode = false;
 	}
 
     /** @dev Sets the `isEmergencyMode` state variable to `true`.
-     */
+      */
 	function startEmergencyMode() private {
 		isEmergencyMode = true;
 	}
@@ -150,7 +150,7 @@ contract Cards {
 	}
 
     /** @dev Transfers all rewards to the sender's address that have been collected for it.
-     */
+      */
 	function claimRewards() public {
 		uint amount = openRewardsInWei[msg.sender];
 
