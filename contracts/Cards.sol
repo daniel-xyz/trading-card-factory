@@ -24,25 +24,29 @@ contract Cards {
 		uint weiPrice;
 	}
 
-    /** @dev Reverts any call that is not made by the contract's owner. */
+    /** @dev Reverts any call that is not made by the contract's owner.
+     */
 	modifier isOwner() {
 		require(owner == msg.sender);
 		_;
 	}
 
-    /** @dev Reverts any call that is made during the emergency mode. */
+    /** @dev Reverts any call that is made during the emergency mode.
+     */
 	modifier stopInEmergency { 
 		require(!isEmergencyMode);
 		_;
 	 }
 
-    /** @dev Reverts any call that is not made during the emergency mode. */
+    /** @dev Reverts any call that is not made during the emergency mode.
+     */
 	modifier onlyInEmergency {
 		require(isEmergencyMode);
 		_;
 	}
 	
-    /** @dev Sets the `owner` state variable the sender's address and creates to default cards. */
+    /** @dev Sets the `owner` state variable the sender's address and creates to default cards.
+     */
 	constructor() public {
 		owner = msg.sender;
 
@@ -50,12 +54,14 @@ contract Cards {
 		createCard('Unhappy Dragon', 43, 9, 0xfe0d246ece96ef9c6c317f4b76c7dd9be4be585c2f8f743d47d9de07a2e207c8);
 	}
 
-    /** @dev Sets the `isEmergencyMode` state variable to `false`. */
+    /** @dev Sets the `isEmergencyMode` state variable to `false`.
+     */
 	function stopEmergencyMode() public isOwner onlyInEmergency {
 		isEmergencyMode = false;
 	}
 
-    /** @dev Sets the `isEmergencyMode` state variable to `true`. */
+    /** @dev Sets the `isEmergencyMode` state variable to `true`.
+     */
 	function startEmergencyMode() private {
 		isEmergencyMode = true;
 	}
@@ -143,7 +149,8 @@ contract Cards {
 		emit BoughtCard(card.title, msg.sender);
 	}
 
-    /** @dev Transfers all rewards to the sender's address that have been collected for it. */
+    /** @dev Transfers all rewards to the sender's address that have been collected for it.
+     */
 	function claimRewards() public {
 		uint amount = openRewardsInWei[msg.sender];
 
