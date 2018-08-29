@@ -35,4 +35,10 @@ Schema: _package_ (_tested with version_)
 
 If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer you asap.
 
+### Further Information
+
+[How common attacks are addressed](./avoiding_common_attacks.md)
+[Which design patterns are used](./design_pattern_desicions.md)
+[Where are the contracts deployed on Rinkeby](./deployed_addresses.txt)
+
 Enjoy! ❤️
