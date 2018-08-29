@@ -37,8 +37,8 @@ If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer y
 
 ### Further Information
 
-[How common attacks are addressed](./avoiding_common_attacks.md)
-[Which design patterns are used](./design_pattern_desicions.md)
-[Where are the contracts deployed on Rinkeby](./deployed_addresses.txt)
+- [How common attacks are addressed](./avoiding_common_attacks.md)
+- [Which design patterns are used](./design_pattern_desicions.md)
+- [Where are the contracts deployed on Rinkeby](./deployed_addresses.txt)
 
 Enjoy! ❤️
