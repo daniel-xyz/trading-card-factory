@@ -30,7 +30,7 @@ Schema: _package_ (_tested with version_)
 ### Troubleshooting
 
 1. Don't use the beta version of Metamask. This project has been developed with Metamask 4.9.3 in mind.
-2. Reset your account in Metamask. Sometime not doing this can cause problems (_Settings_ -> _Reset Account_)
+2. Reset your account in Metamask. Sometimes not doing this can cause problems (_Settings_ -> _Reset Account_)
 3. If a transaction fails, try to re-send it with a higher Gas Limit (eg. 60'000)
 
 If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer you asap.
