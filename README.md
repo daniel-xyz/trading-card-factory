@@ -33,7 +33,7 @@ Schema: _package_ (_tested with version_)
 2. Reset your account in Metamask. Sometimes not doing this can cause problems (_Settings_ -> _Reset Account_)
 3. If a transaction fails, try to re-send it with a higher Gas Limit (eg. 60'000)
 
-If nothing helps please contact me via danielbischoff@hotmail.com. I'll answer you asap.
+If nothing helps please contact me via mail@daniel.xyz and I'll answer you asap.
 
 ### Further Information
 
