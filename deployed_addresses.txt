@@ -1,5 +1,0 @@
-Contracts deployed on Rinkeby:
-
-1. Cards: 0xe6f2d5265de25712dbe951e0fb6516446824eda8 (source code has even been verified here: https://rinkeby.etherscan.io/address/0xe6f2d5265de25712dbe951e0fb6516446824eda8#code)
-2. SafeMath: 0x8d585f3a0fa5eccd8343aab317928661e490c6e9
-3. Migrations: 0x276209897d350e3987fd7d590042bbbdf7494582
