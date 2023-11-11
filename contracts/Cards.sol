@@ -12,11 +12,11 @@ contract Cards is ERC721 {
     event CardCreated(uint256 indexed cardId, Card cardData);
 
     struct Card {
-        bytes32 title;
+        string title;
         uint8 attack;
         uint8 defense;
         address creator;
-        bytes32 artwork;
+        string image;
 	}
 
     constructor(address initialOwner)
@@ -27,16 +27,16 @@ contract Cards is ERC721 {
       * @param title Card title.
       * @param attack Attack value.
       * @param defense Defense value.
-      * @param artwork IPFS hash encoded as hex string, representing the card artwork.
+      * @param image IPFS hash encoded as hex string, representing the card image.
       */
-	function createCard(bytes32 title, uint8 attack, uint8 defense, bytes32 artwork) public returns (uint256) {
-        require(title != bytes32(0), "'title' cannot be empty");
-        require(artwork != bytes32(0), "'artwork' cannot be empty");
+	function createCard(string memory title, uint8 attack, uint8 defense, string memory image) public returns (uint256) {
+        require(bytes(title).length > 0, "'title' cannot be empty");
+        require(bytes(image).length > 0, "'image' cannot be empty");
         require(attack <= _maxAttackValue, "'attack' is too high");
         require(defense <= _maxDefenseValue, "'defense' is too high");
 
         uint256 newCardId = _nextCardId++;
-        _cards[newCardId] = Card(title, attack, defense, msg.sender, artwork);
+        _cards[newCardId] = Card(title, attack, defense, msg.sender, image);
 
         emit CardCreated(newCardId, _cards[newCardId]);
 

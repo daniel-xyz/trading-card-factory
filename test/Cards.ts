@@ -16,12 +16,12 @@ describe("Cards Contract", function () {
   describe("Card Creation", function () {
     it("should create a card", async function () {
       const { cards } = await loadFixture(deployCardsFixture);
-      const title = stringToHex("My Card", { size: 32 });
+      const title = "My Card";
       const attack = 50;
       const defense = 50;
-      const artwork = stringToHex("ipfs://hash", { size: 32 });
+      const image = "ipfs://hash";
 
-      await cards.write.createCard([title, attack, defense, artwork]);
+      await cards.write.createCard([title, attack, defense, image]);
 
       // TODO - check that the card was created
     });
@@ -31,14 +31,14 @@ describe("Cards Contract", function () {
       const title = stringToHex("My Card", { size: 32 });
       const attack = 50;
       const defense = 50;
-      const artwork = stringToHex("ipfs://hash", { size: 32 });
+      const image = "ipfs://hash";
 
-      await cards.write.createCard([title, attack, defense, artwork]);
+      await cards.write.createCard([title, attack, defense, image]);
       const events1 = await cards.getEvents.CardCreated();
 
       expect(events1[0].args.cardId).to.equal(1n);
 
-      await cards.write.createCard([title, attack, defense, artwork]);
+      await cards.write.createCard([title, attack, defense, image]);
       const events2 = await cards.getEvents.CardCreated();
 
       expect(events2[0].args.cardId).to.equal(2n);
@@ -47,11 +47,11 @@ describe("Cards Contract", function () {
     it("should fail if the title is empty", async function () {
       const { cards } = await loadFixture(deployCardsFixture);
 
-      const title = stringToHex("", { size: 32 });
-      const artwork = stringToHex("ipfs://hash", { size: 32 });
+      const title = "";
+      const image = "ipfs://hash";
 
       await expect(
-        cards.write.createCard([title, 50, 50, artwork])
+        cards.write.createCard([title, 50, 50, image])
       ).to.be.rejectedWith("'title' cannot be empty");
     });
   });
