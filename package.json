@@ -6,7 +6,8 @@
   "description": "Experimental dApp. Create custom trading cards on the Ethereum blockchain.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cd frontend && bun dev",
+    "test": "hardhat test"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^1.0.0",
