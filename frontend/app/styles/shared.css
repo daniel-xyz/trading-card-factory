@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  background-image: url("../images/background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+}
+
+@layer components {
+  .input {
+    background-clip: padding-box;
+    border: solid 2px transparent;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(white, white),
+      radial-gradient(circle at top left, #7b2cbf, #9d0191, #ec4899, #f43f5e);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 0 0 0.5rem 0 rgba(114, 44, 191, 0.7),
+      inset 0 0 0.5rem 0 rgba(114, 44, 191, 0.3);
+    color: #fff;
+  }
+}

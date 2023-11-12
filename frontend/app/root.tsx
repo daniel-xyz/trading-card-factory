@@ -1,5 +1,5 @@
 import styles from "./styles/shared.css";
-import type { LinksFunction } from "@remix-run/node"; // or cloudflare/deno
+import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -8,26 +8,23 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { NextUIProvider, Button, ButtonGroup } from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/react";
+import CardCreationForm from "./CardCreationForm";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export default function App() {
   return (
-    <html lang="en" className="bg-stone-900">
+    <html lang="en" className="dark bg-stone-700">
       <head>
         <Meta />
         <Links />
       </head>
       <body>
         <NextUIProvider>
-          <h1>Hello world!</h1>
-          <Button
-            radius="full"
-            className="bg-gradient-to-tr from-violet-500 to-purple-500 text-white shadow-lg"
-          >
-            Button
-          </Button>
+          <div className="flex flex-col items-center justify-center h-screen">
+            <CardCreationForm onCardCreate={() => {}} />
+          </div>
           <Outlet />
           <ScrollRestoration />
           <Scripts />
